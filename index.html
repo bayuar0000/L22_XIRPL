@@ -663,7 +663,7 @@ async function sendData(final = false) {
   if (!state.name) return;
 
   if (!GOOGLE_SCRIPT_URL ||
-      GOOGLE_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbxbeeotPQUXwt4N5dc21jRaY-Ut6Wdcvm11VJAfdgdbnmXB7d-OryCrgHcAE3nnxfWV/exec") ||
+      GOOGLE_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbx7LM3AIxjuXekw-WqwwGDMmA0QjSdXg9uSLfRV7IU8zTy2jakCkCky2EI413Am3kD3/exec") ||
       !GOOGLE_SCRIPT_URL.endsWith("/exec")) {
     const message = "URL Apps Script belum benar. Gunakan URL Web App yang berakhiran /exec.";
     $("sendStatus").textContent = message;
@@ -677,51 +677,35 @@ async function sendData(final = false) {
   target.textContent = "Mengirim data...";
 
   try {
-    await fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload)
-    });
-
-    target.textContent =
-      "Permintaan pengiriman telah dikirim. Periksa Google Sheets dan Apps Script → Executions untuk memastikan data tersimpan.";
-  } catch (error) {
-    target.textContent =
-      "Pengiriman gagal dari browser: " + error.message +
-      ". Periksa koneksi internet dan URL Apps Script.";
-  } finally {
-    state.sending = false;
-  }
+await fetch(GOOGLE_SCRIPT_URL, {
+  method: "POST",
+  mode: "no-cors",
+  headers: {
+    "Content-Type": "text/plain;charset=utf-8"
+  },
+  body: JSON.stringify({
+    nama: state.name,
+    progress: getProgress(),
+    bugBenar: state.fixed.size,
+    totalBug: challenges.length,
+    status: state.fixed.size === challenges.length
+      ? "Selesai"
+      : "Dalam Proses",
+    waktuGame: elapsedTime(),
+    detail: JSON.stringify(
+      challenges.map((c, i) => ({
+        nomor: i + 1,
+        kategori: c.category,
+        tantangan: c.title,
+        status: state.fixed.has(i)
+          ? "Benar"
+          : "Belum selesai",
+        penjelasan: c.explanation
+      }))
+    )
+  })
+});
 }
-
-function showResults() {
-  $("gameScreen").classList.add("hidden");
-  $("resultScreen").classList.remove("hidden");
-  $("resultIntro").textContent = `Nama: ${state.name} · Waktu pengerjaan: ${elapsedTime()}`;
-  $("finalScore").textContent = `${getScore()} / 100`;
-  $("finalFixed").textContent = `${state.fixed.size} / ${challenges.length}`;
-  $("finalProgress").textContent = getProgress() + "%";
-
-  const body = $("summaryBody");
-  body.innerHTML = "";
-  challenges.forEach((c,i) => {
-    const tr = document.createElement("tr");
-    const values = [
-      String(i+1),
-      `${c.category}: ${c.title}`,
-      isFixed(i) ? "✓ Benar" : "Belum selesai",
-      c.explanation
-    ];
-    values.forEach(value => {
-      const td = document.createElement("td");
-      td.textContent = value;
-      tr.appendChild(td);
-    });
-    body.appendChild(tr);
-  });
-}
-
 function goNext() {
   if (state.index < challenges.length - 1) {
     openChallenge(state.index + 1);
