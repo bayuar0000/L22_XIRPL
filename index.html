@@ -384,7 +384,7 @@ function startGame() {
     return;
   }
 
-  if (GOOGLE_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbx7LM3AIxjuXekw-WqwwGDMmA0QjSdXg9uSLfRV7IU8zTy2jakCkCky2EI413Am3kD3/exec")) {
+  if (GOOGLE_SCRIPT_URL.includes("TEMPEL_URL")) {
     $("startMessage").textContent =
       "URL Apps Script belum diisi. Tempel URL Web App yang berakhiran /exec pada bagian GOOGLE_SCRIPT_URL di index.html.";
     $("startMessage").classList.remove("hidden");
@@ -526,7 +526,7 @@ async function sendData(status, isAutomatic = false) {
     showSaveMessage("Nama siswa belum tersedia.", true);
     return;
   }
-  if (!GOOGLE_SCRIPT_URL.startsWith("https://script.google.com/macros/s/AKfycbx7LM3AIxjuXekw-WqwwGDMmA0QjSdXg9uSLfRV7IU8zTy2jakCkCky2EI413Am3kD3/exec")) {
+  if (!GOOGLE_SCRIPT_URL.startsWith("https://script.google.com/")) {
     showSaveMessage("URL Apps Script tidak valid. Gunakan URL Web App berakhiran /exec.", true);
     return;
   }
