@@ -663,7 +663,7 @@ async function sendData(final = false) {
   if (!state.name) return;
 
   if (!GOOGLE_SCRIPT_URL ||
-      GOOGLE_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbxupfDlXBWLAMxYWFNPqNxfeeE5hbMvY9N7OlC8RU26rjaBYA7_q3fRNyIGYcHwWNw5/exec") ||
+      GOOGLE_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbxbeeotPQUXwt4N5dc21jRaY-Ut6Wdcvm11VJAfdgdbnmXB7d-OryCrgHcAE3nnxfWV/exec") ||
       !GOOGLE_SCRIPT_URL.endsWith("/exec")) {
     const message = "URL Apps Script belum benar. Gunakan URL Web App yang berakhiran /exec.";
     $("sendStatus").textContent = message;
