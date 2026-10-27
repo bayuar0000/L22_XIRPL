@@ -219,128 +219,128 @@ textarea {
   PENTING:
   Tempel URL deployment Web App Apps Script yang berakhiran /exec.
 */
-const GOOGLE_SCRIPT_URL = "TEMPEL_URL_WEB_APP_ANDA_DI_SINI";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx7LM3AIxjuXekw-WqwwGDMmA0QjSdXg9uSLfRV7IU8zTy2jakCkCky2EI413Am3kD3/exec";
 
 const challenges = [
   {
     title: "Selektor Class",
-    description: "Elemen dengan class card tidak menerima warna latar yang diharapkan.",
-    hint: "Selektor class pada CSS harus diawali tanda titik.",
-    broken: ".card { background-color: #eeeeee; }",
-    fixed: ".card { background-color: #eeeeee; }",
-    explanation: "Selektor class menggunakan tanda titik. Periksa nama class pada HTML dan pastikan cocok dengan CSS."
+    description: "Sebuah elemen HTML memiliki class kartu. Namun, aturan CSS tidak berhasil memilih elemen tersebut.",
+    hint: "Selektor class harus diawali tanda titik.",
+    broken: "kartu { background-color: #eeeeee; }",
+    fixed: ".kartu { background-color: #eeeeee; }",
+    explanation: "Selektor class diawali tanda titik. Gunakan .kartu agar aturan diterapkan pada elemen yang memiliki class=\"kartu\"."
   },
   {
     title: "Warna Teks",
-    description: "Teks belum berubah warna karena nama properti tidak tepat.",
-    hint: "Properti untuk mengatur warna tulisan adalah color.",
+    description: "Paragraf tidak berubah menjadi biru karena nama properti CSS salah.",
+    hint: "Gunakan properti untuk mengatur warna tulisan.",
     broken: "p { font-color: blue; }",
     fixed: "p { color: blue; }",
-    explanation: "CSS memakai properti color untuk mengatur warna teks, bukan font-color."
+    explanation: "Properti yang benar adalah color, bukan font-color."
   },
   {
-    title: "Ukuran Teks",
-    description: "Ukuran teks judul tidak dapat diterapkan.",
-    hint: "Gunakan properti font-size.",
+    title: "Ukuran Judul",
+    description: "Ukuran judul tidak diterapkan karena nilai ukurannya tidak memiliki satuan.",
+    hint: "Tambahkan satuan ukuran yang sesuai.",
     broken: "h1 { font-size: 24; }",
     fixed: "h1 { font-size: 24px; }",
-    explanation: "Nilai ukuran seperti 24 perlu satuan, misalnya px. Angka 0 adalah pengecualian yang tidak memerlukan satuan."
+    explanation: "Nilai 24 perlu satuan seperti px. Penulisan yang benar adalah font-size: 24px."
   },
   {
     title: "Jarak Dalam",
-    description: "Konten terlalu dekat dengan tepi kotak.",
-    hint: "Jarak di dalam elemen disebut padding.",
+    description: "Teks terlalu dekat dengan tepi kotak karena nilai padding tidak valid.",
+    hint: "Perbaiki nilai jarak dalam menjadi ukuran yang valid.",
     broken: ".box { padding: 20; }",
     fixed: ".box { padding: 20px; }",
-    explanation: "Nilai padding 20 perlu satuan seperti px, kecuali nilainya 0."
+    explanation: "Nilai padding 20 perlu satuan seperti px. Padding mengatur jarak antara isi elemen dan batasnya."
   },
   {
     title: "Jarak Luar",
-    description: "Kotak tidak memiliki jarak luar sesuai kebutuhan.",
-    hint: "Gunakan margin dengan nilai dan satuan yang sesuai.",
+    description: "Kotak tidak memiliki jarak luar yang diinginkan karena nilai margin salah.",
+    hint: "Tambahkan satuan pada nilai margin.",
     broken: ".box { margin: 16; }",
     fixed: ".box { margin: 16px; }",
-    explanation: "Nilai margin 16 harus memiliki satuan, misalnya 16px."
+    explanation: "Nilai margin 16 perlu satuan, misalnya 16px. Margin mengatur jarak di luar elemen."
   },
   {
-    title: "Lebar Elemen",
-    description: "Kotak seharusnya memenuhi lebar area induknya.",
-    hint: "Nilai persentase ditulis dengan simbol %.",
+    title: "Lebar Kontainer",
+    description: "Kontainer seharusnya memenuhi lebar elemen induknya, tetapi nilai width tidak valid.",
+    hint: "Gunakan nilai persentase.",
     broken: ".container { width: 100; }",
     fixed: ".container { width: 100%; }",
-    explanation: "Untuk mengisi 100 persen lebar elemen induk, tulis 100%."
+    explanation: "Tanda persen diperlukan untuk menyatakan persentase. width: 100% berarti selebar elemen induk."
   },
   {
     title: "Sudut Membulat",
-    description: "Sudut kartu masih tajam.",
-    hint: "Properti sudut membulat bernama border-radius.",
+    description: "Kartu belum dapat menampilkan sudut membulat karena nilai border-radius tidak valid.",
+    hint: "Tambahkan satuan pada ukuran sudut.",
     broken: ".card { border-radius: 12; }",
     fixed: ".card { border-radius: 12px; }",
-    explanation: "Nilai border-radius 12 memerlukan satuan seperti px."
+    explanation: "Nilai 12 perlu satuan seperti px agar menghasilkan sudut membulat sesuai ukuran yang ditentukan."
   },
   {
     title: "Garis Batas",
-    description: "Garis batas kotak tidak tampil sesuai spesifikasi.",
-    hint: "Periksa format nilai border.",
+    description: "Garis batas kotak tidak muncul karena nilai ketebalan border salah.",
+    hint: "Periksa ketebalan, jenis garis, dan warna border.",
     broken: ".box { border: 1 solid black; }",
     fixed: ".box { border: 1px solid black; }",
-    explanation: "Format border dapat berupa ketebalan, jenis garis, dan warna. Ketebalan 1 perlu satuan px."
+    explanation: "Ketebalan border harus memiliki satuan. Contoh yang benar: 1px solid black."
   },
   {
     title: "Flexbox",
-    description: "Item dalam container tidak tersusun berjajar.",
-    hint: "Aktifkan mode Flexbox pada elemen induk.",
+    description: "Elemen anak belum tersusun menggunakan Flexbox karena nilai display salah.",
+    hint: "Periksa nilai display yang digunakan untuk Flexbox.",
     broken: ".container { display: flexbox; }",
     fixed: ".container { display: flex; }",
-    explanation: "Nilai display yang benar untuk mengaktifkan Flexbox adalah flex, bukan flexbox."
+    explanation: "Nilai yang benar adalah display: flex, bukan display: flexbox."
   },
   {
     title: "Posisi Tengah",
-    description: "Item Flexbox tidak berada di tengah secara horizontal.",
-    hint: "Gunakan justify-content dengan nilai center.",
+    description: "Item dalam kontainer Flexbox tidak berada di tengah karena nilai justify-content salah.",
+    hint: "Gunakan nilai untuk memusatkan item pada sumbu utama.",
     broken: ".container { display: flex; justify-content: middle; }",
     fixed: ".container { display: flex; justify-content: center; }",
-    explanation: "Nilai center digunakan untuk menempatkan item di tengah pada sumbu utama Flexbox."
+    explanation: "Nilai yang benar adalah center. Properti justify-content mengatur posisi item pada sumbu utama Flexbox."
   },
   {
-    title: "Selector ID",
-    description: "Aturan untuk elemen dengan id utama tidak diterapkan.",
-    hint: "Selektor ID dimulai dengan tanda pagar.",
+    title: "Selektor ID",
+    description: "Aturan CSS tidak memilih elemen dengan id utama karena selektornya salah.",
+    hint: "Selektor ID menggunakan tanda pagar.",
     broken: "utama { color: green; }",
     fixed: "#utama { color: green; }",
-    explanation: "Selektor untuk id utama adalah #utama. Pastikan atribut id pada HTML juga bernilai utama."
+    explanation: "Gunakan #utama untuk memilih elemen HTML yang memiliki id=\"utama\"."
   },
   {
-    title: "Hover",
-    description: "Warna tombol tidak berubah saat pointer berada di atasnya.",
-    hint: "Periksa penulisan pseudo-class hover.",
+    title: "Efek Hover",
+    description: "Warna tombol tidak berubah ketika pointer berada di atasnya karena penulisan pseudo-class salah.",
+    hint: "Tambahkan tanda baca yang tepat sebelum hover.",
     broken: "button hover { background: orange; }",
     fixed: "button:hover { background: orange; }",
     explanation: "Pseudo-class hover ditulis dengan titik dua, seperti button:hover."
   },
   {
-    title: "Grid Layout",
-    description: "Container belum menjadi layout grid.",
-    hint: "Gunakan display dengan nilai grid.",
-    broken: ".grid { display: gridbox; }",
-    fixed: ".grid { display: grid; }",
-    explanation: "Nilai yang benar untuk mengaktifkan CSS Grid adalah display: grid."
-  },
-  {
     title: "Kolom Grid",
-    description: "Grid tidak memiliki dua kolom dengan ukuran yang sama.",
-    hint: "Gunakan satuan fr untuk membagi ruang grid.",
-    broken: ".grid { display: grid; grid-template-columns: 1fr 1fr; }",
+    description: "Aturan pembagian kolom tidak diterapkan karena nama properti Grid salah.",
+    hint: "Periksa nama properti untuk mengatur kolom grid.",
+    broken: ".grid { display: grid; grid-template-column: 1fr 1fr; }",
     fixed: ".grid { display: grid; grid-template-columns: 1fr 1fr; }",
-    explanation: "Dua nilai 1fr membagi ruang menjadi dua kolom dengan ukuran sama. Pastikan jumlah kolom sesuai kebutuhan."
+    explanation: "Nama properti yang benar adalah grid-template-columns, dengan akhiran s. Dua nilai 1fr membagi ruang menjadi dua kolom sama besar."
   },
   {
     title: "Media Query",
-    description: "Aturan untuk layar kecil tidak aktif karena sintaks media query salah.",
-    hint: "Media query dimulai dengan @media dan kondisi dalam tanda kurung.",
+    description: "Aturan untuk layar dengan lebar maksimal 600 piksel tidak aktif karena sintaks kondisi salah.",
+    hint: "Kondisi media query harus diapit tanda kurung.",
     broken: "@media max-width: 600px { .box { width: 100%; } }",
     fixed: "@media (max-width: 600px) { .box { width: 100%; } }",
-    explanation: "Kondisi media query harus ditulis dalam tanda kurung, misalnya (max-width: 600px)."
+    explanation: "Sintaks yang benar adalah @media (max-width: 600px). Tanda kurung diperlukan untuk kondisi tersebut."
+  },
+  {
+    title: "Urutan Lapisan",
+    description: "Elemen yang seharusnya berada di lapisan atas tidak memperoleh urutan lapisan yang benar.",
+    hint: "z-index menggunakan angka, bukan kata seperti high.",
+    broken: ".popup { position: relative; z-index: high; }",
+    fixed: ".popup { position: relative; z-index: 10; }",
+    explanation: "z-index menggunakan nilai angka, misalnya 10. Pada elemen yang posisinya diatur, nilai ini membantu menentukan urutan lapisannya."
   }
 ];
 
