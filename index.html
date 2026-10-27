@@ -1,0 +1,62 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HTML + CSS Debugging Level 4</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font:16px Arial;background:#eef2ff;color:#172033}.screen{display:none;padding:14px;min-height:100vh}.active{display:block}.card,.panel{background:white;border-radius:14px;padding:18px;box-shadow:0 5px 20px #0001}.card{max-width:850px;margin:auto}.layout{display:grid;grid-template-columns:290px 1fr;gap:14px;max-width:1300px;margin:auto}button,input,textarea{font:inherit}input{padding:12px;width:100%}button{padding:10px;border:0;border-radius:8px;cursor:pointer}.primary{background:#2563eb;color:white}.secondary{background:#e2e8f0}.bug{padding:9px;margin:6px 0;border:1px solid #cbd5e1;border-radius:8px;cursor:pointer}.bug.active{outline:2px solid #60a5fa}.bug.done{background:#dcfce7}textarea{width:100%;height:440px;font:13px/1.5 monospace;padding:12px}.progress{height:10px;background:#ddd}.progress div{height:100%;background:#2563eb;width:0}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.feedback{background:#f1f5f9;padding:10px;border-radius:8px;margin:10px 0}.good{background:#dcfce7}.bad{background:#fee2e2}iframe{width:100%;height:230px;border:1px solid #ccc}@media(max-width:800px){.layout{grid-template-columns:1fr}}
+</style></head><body>
+<section id="start" class="screen active"><div class="card"><h1>🚀 HTML + CSS Debugging — Level 4</h1><p>15 bug lanjutan: 10 CSS dan 5 HTML. Setiap bug diperiksa terpisah; nilai maksimal 100.</p><label>Nama siswa</label><input id="nm" placeholder="Masukkan nama"><div class="toolbar"><button class="primary" onclick="start()">Mulai</button></div></div></section>
+<section id="game" class="screen"><div class="layout"><aside class="panel"><h2>Daftar Bug</h2><div class="progress"><div id="bar"></div></div><p id="score">Progress 0%</p><div id="list"></div><div class="toolbar"><button class="primary" onclick="send()">Kirim Progress</button><button class="secondary" onclick="run()">Jalankan Game</button></div></aside><main class="panel"><h2 id="title"></h2><div id="desc" class="feedback"></div><textarea id="ed" spellcheck="false"></textarea><div class="toolbar"><button class="primary" onclick="check()">Periksa Bug</button><button class="secondary" onclick="reset()">Reset Kode</button></div><div id="fb" class="feedback"></div><iframe id="prev" title="Preview"></iframe></main></div></section>
+<section id="result" class="screen"><div class="card"><h1>🎉 Selesai!</h1><div id="res"></div><button class="primary" onclick="run()">Jalankan Game</button><button onclick="location.reload()">Main Lagi</button></div></section>
+<script>
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxq4Ee5tzEKeGxLAOTadE0lZ0rYYbymCfGeobFjQNB92nnt4XiXXVA29d_ikY0VMrpe/exec";
+const initial=`<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><title>Portofolio</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#f1f5f9;color:#172033}
+.container{width:92%;max-width:900px;margin:24px auto}
+.hero{background:#1d4ed8;color:white;padding:24px;border-radius:14px}
+.nav{display:flex;gap:14px;padding:14px;background:white}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.card{background:white;padding:18px;border-radius:12px}
+.card:hover{transform:translateY(-3px);transition:transform 0s}
+.profile-img{width:110px;height:150px;object-fit:fill;border-radius:50%}
+.description{height:70px;overflow:hidden}
+button{padding:10px 16px;border:0;border-radius:8px}
+a{color:#1d4ed8}
+@media(min-width:600px){.cards{grid-template-columns:1fr}}
+</style></head><body><div class="container">
+<header class="hero"><h1>Portofolio Developer Muda</h2><p>Belajar membangun web responsif.</p></header>
+<nav class="nav"><a href="#">Beranda</a><a href="#">Proyek</a><a href="#">Kontak</a></nav>
+<main><section class="cards">
+<article class="card"><img class="profile-img" src="https://via.placeholder.com/120x120" alt=""><h2>HTML & CSS</h2><p class="description">Membuat struktur dan tampilan web yang mudah digunakan.</p><a href="#">Detail</a></article>
+<article class="card"><img class="profile-img" src="https://via.placeholder.com/120x120" alt="Foto proyek"><h2>JavaScript</h2><p class="description">Menambahkan interaksi pada halaman web.</p><a href="#">Detail</a></article>
+<article class="card"><img class="profile-img" src="https://via.placeholder.com/120x120" alt="Foto Git"><h2>Git dan GitHub</h2><p class="description">Mengelola versi dan mempublikasikan proyek.</p><a href="#">Detail</a></article></section>
+<form><label for="student-name">Nama siswa</label><input id="student-name" type="text" placeholder="Nama lengkap"><button type="submit">Kirim</button></form><footer><p>© 2026 Portofolio Siswa</p></footer></main></div></body></html>`;
+const bugs=[
+["CSS 1 — Grid responsif","Grid dipaksa tiga kolom.","Gunakan repeat(auto-fit,minmax(220px,1fr)).",c=>/grid-template-columns\s*:\s*repeat\(\s*auto-fit\s*,\s*minmax\(\s*220px\s*,\s*1fr\s*\)\s*\)\s*;/.test(c)],
+["CSS 2 — Rasio gambar","Gambar terlihat gepeng.","Gunakan object-fit: cover.",c=>/\.profile-img\s*\{[^}]*object-fit\s*:\s*cover\s*;/s.test(c)],
+["CSS 3 — Overflow","Deskripsi terpotong.","Gunakan overflow: visible.",c=>/\.description\s*\{[^}]*overflow\s*:\s*visible\s*;/s.test(c)],
+["CSS 4 — Transition","Animasi kartu tidak halus.","Taruh transition: transform .2s ease; pada .card, bukan :hover.",c=>/\.card\s*\{[^}]*transition\s*:\s*transform\s+\.2s\s+ease\s*;/s.test(c)],
+["CSS 5 — Focus input","Input belum punya fokus yang jelas.","Tambahkan input:focus{outline:2px solid #2563eb;}.",c=>/input:focus\s*\{[^}]*outline\s*:\s*2px\s+solid\s+#2563eb\s*;/s.test(c)],
+["CSS 6 — Nav wrap","Navigasi bisa bertabrakan di layar sempit.","Tambahkan flex-wrap:wrap pada .nav.",c=>/\.nav\s*\{[^}]*flex-wrap\s*:\s*wrap\s*;/s.test(c)],
+["CSS 7 — Kontras hero","Tautan di hero harus terlihat jelas.","Tambahkan .hero a{color:white;}.",c=>/\.hero\s+a\s*\{[^}]*color\s*:\s*white\s*;/s.test(c)],
+["CSS 8 — Input sizing","Input bisa melampaui wadah.","Tambahkan input{width:100%;box-sizing:border-box;}.",c=>/input\s*\{[^}]*width\s*:\s*100%\s*;[^}]*box-sizing\s*:\s*border-box\s*;/s.test(c)],
+["CSS 9 — Media query","Kondisi media query terbalik dan layout salah.","Gunakan @media(max-width:600px){.container{width:100%;}}.",c=>/@media\s*\(\s*max-width\s*:\s*600px\s*\)\s*\{[^}]*\.container\s*\{[^}]*width\s*:\s*100%\s*;/s.test(c)],
+["CSS 10 — Button hover","Tombol tidak memberi feedback hover.","Tambahkan button:hover{background-color:#dbeafe;}.",c=>/button:hover\s*\{[^}]*background-color\s*:\s*#dbeafe\s*;/s.test(c)],
+["HTML 11 — Heading","Tag h1 ditutup dengan h2.","Samakan menjadi <h1>...</h1>.",c=>/<h1>Portofolio Developer Muda<\/h1>/.test(c)],
+["HTML 12 — Alt gambar","Gambar pertama belum punya alt deskriptif.","Ubah alt kosong menjadi alt=\"Foto profil\".",c=>/<img class="profile-img" src="https:\/\/via\.placeholder\.com\/120x120" alt="Foto profil">/.test(c)],
+["HTML 13 — Label input","Label harus terhubung ke input.","Tambahkan for=\"student-name\" pada label.",c=>/<label for="student-name">Nama siswa<\/label>/.test(c)],
+["HTML 14 — Button form","Tombol demo mengirim form dan memuat ulang halaman.","Ubah type submit menjadi type button.",c=>/<button type="button">Kirim<\/button>/.test(c)],
+["HTML 15 — Link tujuan","Tautan Proyek perlu menuju section proyek.","Ubah link ke #proyek dan beri id=\"proyek\" pada section cards.",c=>/<a href="#proyek">Proyek<\/a>/.test(c)&&/<section class="cards" id="proyek">/.test(c)]
+];
+let student="",code=initial,fixed=Array(15).fill(false),cur=0,saving=false,sent=false;
+function show(id){document.querySelectorAll(".screen").forEach(e=>e.classList.remove("active"));document.getElementById(id).classList.add("active")}
+function start(){student=document.getElementById("nm").value.trim();if(!student)return alert("Isi nama siswa terlebih dahulu.");show("game");render();preview()}
+function render(){list.innerHTML=bugs.map((b,i)=>`<div class="bug ${i===cur?"active ":""}${fixed[i]?"done":""}" onclick="selectBug(${i})"><b>${fixed[i]?"✅":"🐞"} ${b[0]}</b><br><small>${i<10?"CSS":"HTML"} · ${fixed[i]?"Benar":"Belum diperbaiki"}</small></div>`).join("");let n=fixed.filter(Boolean).length,p=Math.round(n/15*100);bar.style.width=p+"%";score.textContent=`Progress ${p}% (${n}/15)`;title.textContent=bugs[cur][0];desc.innerHTML="<b>Masalah:</b> "+bugs[cur][1]+"<br><b>Penjelasan:</b> "+bugs[cur][2];ed.value=code}
+function selectBug(i){code=ed.value;cur=i;render();fb.className="feedback";fb.textContent="Edit kode lalu tekan Periksa Bug."}
+ed.addEventListener("input",()=>{code=ed.value;preview()});
+function check(){code=ed.value;let ok=bugs[cur][3](code);fixed[cur]=ok;fb.className="feedback "+(ok?"good":"bad");fb.textContent=ok?"✅ Bug berhasil diperbaiki.":"❌ Belum tepat. Ikuti penjelasan bug dan periksa kembali.";render();preview();if(fixed.every(Boolean))complete()}
+function reset(){code=initial;fixed=Array(15).fill(false);cur=0;render();preview()}
+function preview(){prev.srcdoc=code}
+async function send(auto=false){if(saving)return;saving=true;let n=fixed.filter(Boolean).length,p=Math.round(n/15*100),data={nama:student,progress:p,jumlahBenar:n,totalBug:15,status:n===15?"Selesai":"Progress",waktu:new Date().toLocaleString("id-ID"),detail:fixed.map((v,i)=>`${i+1}:${v?"Benar":"Belum"}`).join(" | ")};try{if(GOOGLE_SCRIPT_URL.includes("PASTE_URL")){alert("Tempel URL Apps Script /exec pada GOOGLE_SCRIPT_URL di index.html.");saving=false;return}await fetch(GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});if(!auto)alert("Progress dikirim. Periksa spreadsheet untuk memastikan data masuk.")}catch(e){alert("Gagal mengirim. Periksa URL dan deployment Apps Script.")}saving=false}
+function complete(){if(sent)return;sent=true;res.innerHTML=`<p>Nama: <b>${student}</b></p><p>Nilai: <b>100/100</b></p><p>15 bug berhasil diperbaiki: 10 CSS dan 5 HTML. Hasil otomatis dikirim.</p>`;show("result");send(true)}
+function run(){if(!fixed.every(Boolean))return alert("Perbaiki semua 15 bug sampai 100% terlebih dahulu.");alert("🎮 Semua bug HTML dan CSS telah diperbaiki. Game dapat dijalankan!")}
+</script></body></html>
